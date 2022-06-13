@@ -1,5 +1,10 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
-  TargetRubyVersion: 2.4
+  EnabledByDefault: true
+  DefaultFormatter: fuubar
+  DisplayCopNames: true
+  TargetRubyVersion: 3.0
 
 Style/StringLiterals:
   Enabled: true
