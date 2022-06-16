@@ -6,6 +6,8 @@ AllCops:
   DisplayCopNames: true
   TargetRubyVersion: 3.0
 
+Bundler/GemVersion: { EnforcedStyle: forbidden }
+
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
