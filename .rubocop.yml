@@ -18,3 +18,5 @@ Style/StringLiteralsInInterpolation:
 
 Layout/LineLength:
   Max: 80
+
+Style/Copyright: { Enabled: false }
