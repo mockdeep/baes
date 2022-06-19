@@ -1,11 +1,13 @@
 class Baes::Rebaser
+  include Baes::Configuration
+
   def call(options)
     root_name =
       options.detect { |option| option != '--dry' } || detect_root_name
     root_branch = Baes::TreeBuilder.new.(branches, root_name: root_name)
 
     if options.any? { |option| option == '--dry' }
-      puts root_branch.inspect
+      output.puts root_branch.inspect
     else
       rebase_children(root_branch)
     end

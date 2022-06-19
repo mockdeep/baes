@@ -2,6 +2,8 @@ class Baes::Branch
   attr_accessor :name
   attr_accessor :children
 
+  include Baes::Configuration
+
   def initialize(name)
     @name = name
     @children = []
@@ -16,17 +18,17 @@ class Baes::Branch
   end
 
   def skip_through(other_branch)
-    puts "conflict rebasing branch #{name} on #{other_branch.name}"
-    print skip_rebase_message
-    answer = gets.chomp
-    puts
+    output.puts "conflict rebasing branch #{name} on #{other_branch.name}"
+    output.print skip_rebase_message
+    answer = input.gets.chomp
+    output.puts
 
     if answer == 'y'
       result = git.rebase_skip
 
       skip_through(other_branch) if !result.success?
     else
-      abort 'failed to rebase, resolve manually and then re-run baes'
+      abort 'failed to rebase, please resolve manually and then re-run baes'
     end
   end
 
