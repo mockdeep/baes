@@ -32,8 +32,4 @@ class Baes::Rebaser
       rebase_children(child_branch)
     end
   end
-
-  def git
-    Baes.git
-  end
 end

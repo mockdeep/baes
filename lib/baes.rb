@@ -2,11 +2,6 @@
 
 module Baes
   class Error < StandardError; end
-  # Your code goes here...
-
-  def self.git
-    Baes::Git
-  end
 end
 
 require_relative "baes/configuration"
