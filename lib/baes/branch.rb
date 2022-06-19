@@ -1,6 +1,3 @@
-require 'English'
-require 'open3'
-
 class Baes::Branch
   attr_accessor :name
   attr_accessor :children
@@ -11,31 +8,25 @@ class Baes::Branch
   end
 
   def rebase(other_branch)
-    print `git checkout #{name}`
-    stdout, stderr, status = Open3.capture3("git rebase #{other_branch.name}")
-    puts stdout
-    puts stderr unless stderr.empty?
-    skip_through(other_branch) unless status.success?
+    git.checkout(name)
+
+    result = git.rebase(other_branch.name)
+
+    skip_through(other_branch) if !result.success?
   end
 
   def skip_through(other_branch)
     puts "conflict rebasing branch #{name} on #{other_branch.name}"
-    print "skip commit #{next_step} of #{last_step}? (y/n)"
+    print "skip commit #{git.next_rebase_step} of #{git.last_rebase_step}? (y/n)"
     answer = gets.chomp
+
     if answer == 'y'
-      print `git rebase --skip`
-      skip_through(other_branch) if !$CHILD_STATUS.success?
+      result = git.rebase_skip
+
+      skip_through(other_branch) if !result.success?
     else
       abort 'failed to rebase'
     end
-  end
-
-  def next_step
-    File.read('./.git/rebase-apply/next').strip
-  end
-
-  def last_step
-    File.read('./.git/rebase-apply/last').strip
   end
 
   def inspect(indentation = '')
@@ -43,5 +34,9 @@ class Baes::Branch
       "\n#{child.inspect(indentation + '  ')}"
     end
     "#{indentation}#{name}#{children_strings.join}"
+  end
+
+  def git
+    Baes.git
   end
 end
