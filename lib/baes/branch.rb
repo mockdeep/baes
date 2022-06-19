@@ -42,8 +42,4 @@ class Baes::Branch
     end
     "#{indentation}#{name}#{children_strings.join}"
   end
-
-  def git
-    Baes.git
-  end
 end

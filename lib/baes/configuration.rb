@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 module Baes::Configuration
+  def self.git
+    @git ||= Baes::Git
+  end
+
+  def self.git=(git)
+    @git = git
+  end
+
   def self.input
     @input ||= $stdin
   end
@@ -15,6 +23,10 @@ module Baes::Configuration
 
   def self.output=(output)
     @output = output
+  end
+
+  def git
+    Baes::Configuration.git
   end
 
   def input
