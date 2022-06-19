@@ -1,14 +1,16 @@
 class Baes::Rebaser
-  def call
+  def call(options)
+    root_name =
+      options.detect { |option| option != '--dry' } || detect_root_name
     root_branch = Baes::TreeBuilder.new.(branches, root_name: root_name)
 
-    if ARGV.any? { |arg| arg == '--dry' }
+    if options.any? { |option| option == '--dry' }
       puts root_branch.inspect
     else
       rebase_children(root_branch)
     end
 
-    git.checkout(root_name)
+    git.checkout(root_branch.name)
   end
 
   def branches
@@ -17,8 +19,7 @@ class Baes::Rebaser
     end
   end
 
-  def root_name
-    root = ARGV.detect { |arg| arg != '--dry' }
+  def detect_root_name
     root ||= 'main' if branches.any? { |branch| branch.name == 'main' }
     root || 'master'
   end
