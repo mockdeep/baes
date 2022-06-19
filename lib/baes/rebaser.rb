@@ -7,12 +7,13 @@ class Baes::Rebaser
     else
       rebase_children(root_branch)
     end
-    print `git checkout #{root_name}`
+
+    git.checkout(root_name)
   end
 
   def branches
-    @branches ||= `git branch`.lines.map do |line|
-      Baes::Branch.new(line.strip.tr('* ', ''))
+    @branches ||= git.branch_names.map do |branch_name|
+      Baes::Branch.new(branch_name)
     end
   end
 
@@ -27,5 +28,9 @@ class Baes::Rebaser
       child_branch.rebase(branch)
       rebase_children(child_branch)
     end
+  end
+
+  def git
+    Baes.git
   end
 end
