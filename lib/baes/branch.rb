@@ -17,16 +17,21 @@ class Baes::Branch
 
   def skip_through(other_branch)
     puts "conflict rebasing branch #{name} on #{other_branch.name}"
-    print "skip commit #{git.next_rebase_step} of #{git.last_rebase_step}? (y/n)"
+    print skip_rebase_message
     answer = gets.chomp
+    puts
 
     if answer == 'y'
       result = git.rebase_skip
 
       skip_through(other_branch) if !result.success?
     else
-      abort 'failed to rebase'
+      abort 'failed to rebase, resolve manually and then re-run baes'
     end
+  end
+
+  def skip_rebase_message
+    "skip commit #{git.next_rebase_step} of #{git.last_rebase_step}? (y/n)"
   end
 
   def inspect(indentation = '')
