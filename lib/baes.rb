@@ -9,6 +9,7 @@ module Baes
   end
 end
 
+require_relative "baes/configuration"
 require_relative "baes/branch"
 require_relative "baes/git"
 require_relative "baes/rebaser"
