@@ -1,4 +1,4 @@
-SKIP_BRANCHES = %w[staging main master]
+SKIP_BRANCHES = ["staging", "main", "master"]
 
 class Baes::TreeBuilder
   def initialize
