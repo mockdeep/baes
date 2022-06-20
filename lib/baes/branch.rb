@@ -17,6 +17,15 @@ class Baes::Branch
     skip_through(other_branch) if !result.success?
   end
 
+  def inspect(indentation = '')
+    children_strings = children.map do |child|
+      "\n#{child.inspect(indentation + '  ')}"
+    end
+    "#{indentation}#{name}#{children_strings.join}"
+  end
+
+  private
+
   def skip_through(other_branch)
     output.puts "conflict rebasing branch #{name} on #{other_branch.name}"
     output.print skip_rebase_message
@@ -34,12 +43,5 @@ class Baes::Branch
 
   def skip_rebase_message
     "skip commit #{git.next_rebase_step} of #{git.last_rebase_step}? (y/n)"
-  end
-
-  def inspect(indentation = '')
-    children_strings = children.map do |child|
-      "\n#{child.inspect(indentation + '  ')}"
-    end
-    "#{indentation}#{name}#{children_strings.join}"
   end
 end
