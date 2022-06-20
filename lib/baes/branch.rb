@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 class Baes::Branch
-  attr_accessor :name
-  attr_accessor :children
+  attr_accessor :name, :children
 
   include Baes::Configuration
 
@@ -14,28 +15,30 @@ class Baes::Branch
 
     result = git.rebase(other_branch.name)
 
-    skip_through(other_branch) if !result.success?
+    skip_through(other_branch) unless result.success?
   end
 
   def inspect(indentation = '')
-    children_strings = children.map do |child|
-      "\n#{child.inspect(indentation + '  ')}"
-    end
+    children_strings =
+      children.map do |child|
+        "\n#{child.inspect(indentation + '  ')}"
+      end
+
     "#{indentation}#{name}#{children_strings.join}"
   end
 
   private
 
   def skip_through(other_branch)
-    output.puts "conflict rebasing branch #{name} on #{other_branch.name}"
-    output.print skip_rebase_message
+    output.puts("conflict rebasing branch #{name} on #{other_branch.name}")
+    output.print(skip_rebase_message)
     answer = input.gets.chomp
     output.puts
 
     if answer == 'y'
       result = git.rebase_skip
 
-      skip_through(other_branch) if !result.success?
+      skip_through(other_branch) unless result.success?
     else
       abort 'failed to rebase, please resolve manually and then re-run baes'
     end

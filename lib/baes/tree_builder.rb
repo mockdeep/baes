@@ -1,4 +1,6 @@
-SKIP_BRANCHES = ["staging", "main", "master"]
+# frozen_string_literal: true
+
+SKIP_BRANCHES = ["staging", "main", "master"].freeze
 
 class Baes::TreeBuilder
   def initialize
@@ -26,12 +28,16 @@ class Baes::TreeBuilder
   def parent_name(branch, root_name:)
     _, name, number = branch.name.match(/(\A[a-zA-Z_-]+)(\d+)/).to_a
 
-    number ? "#{name}#{(number.to_i - 1).to_s.rjust(number.length, '0')}" : root_name
+    if number
+      "#{name}#{(Integer(number, 10) - 1).to_s.rjust(number.length, '0')}"
+    else
+      root_name
+    end
   end
 
   def find_branch(branches, name)
     @branch_cache[name] ||=
-      branches.detect { |branch| branch.name == name } ||
-      branches.detect { |branch| branch.name.end_with?(name) }
+      branches.find { |branch| branch.name == name } ||
+      branches.find { |branch| branch.name.end_with?(name) }
   end
 end
