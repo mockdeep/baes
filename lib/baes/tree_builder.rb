@@ -4,28 +4,25 @@ SKIP_BRANCHES = ["staging", "main", "master"].freeze
 
 # class that generates a tree of dependent branches
 class Baes::TreeBuilder
-  # instantiate a new Baes::TreeBuilder
-  def initialize
-    @branch_cache = {}
-  end
-
   # generate a tree of Branch records linked to their children
   def call(branches, root_name:)
+    indexed_branches = index_branches(branches)
+
     branches.each do |branch|
-      link_branch_to_parent(branch, branches, root_name: root_name)
+      link_branch_to_parent(branch, indexed_branches, root_name: root_name)
     end
-    find_branch(branches, root_name)
+
+    indexed_branches.fetch(root_name)
   end
 
   private
 
-  def link_branch_to_parent(branch, branches, root_name:)
+  def link_branch_to_parent(branch, indexed_branches, root_name:)
     return if (SKIP_BRANCHES + [root_name]).include?(branch.name)
 
-    root_branch = find_branch(branches, root_name)
+    root_branch = indexed_branches.fetch(root_name)
     parent_branch =
-      find_branch(branches, parent_name(branch, root_name: root_name)) ||
-      root_branch
+      indexed_branches[parent_name(branch, root_name: root_name)] || root_branch
 
     parent_branch.children << branch
   end
@@ -40,7 +37,9 @@ class Baes::TreeBuilder
     end
   end
 
-  def find_branch(branches, name)
-    @branch_cache[name] ||= branches.find { |branch| branch.name == name }
+  def index_branches(branches)
+    branches.each_with_object({}) do |branch, result|
+      result[branch.name] = branch
+    end
   end
 end
