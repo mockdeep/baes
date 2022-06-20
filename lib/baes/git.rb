@@ -10,7 +10,7 @@ module Baes::Git
     output.puts stdout
     output.puts stderr if !stderr.empty?
 
-    raise "failed to rebase on #{branch_name}" if !status.success?
+    raise "failed to rebase on '#{branch_name}'" if !status.success?
   end
 
   def self.rebase(branch_name)

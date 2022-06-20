@@ -15,5 +15,8 @@ module Kernel
 end
 
 RSpec.configure do |config|
-  config.before { allow(Open3).to receive(:capture3) }
+  config.before do
+    allow(Open3).to receive(:capture3)
+    Baes::Configuration.output = StringIO.new
+  end
 end
