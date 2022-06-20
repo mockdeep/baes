@@ -54,29 +54,3 @@ Style/DocumentationMethod:
 Style/ImplicitRuntimeError:
   Exclude:
     - 'lib/baes/git.rb'
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: Mode.
-Style/StringConcatenation:
-  Exclude:
-    - 'lib/baes/branch.rb'
-
-# Offense count: 13
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Exclude:
-    - 'lib/baes/branch.rb'
-    - 'lib/baes/git.rb'
-    - 'lib/baes/rebaser.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiteralsInInterpolation:
-  Exclude:
-    - 'lib/baes/branch.rb'
-    - 'lib/baes/tree_builder.rb'

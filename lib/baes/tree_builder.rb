@@ -29,7 +29,7 @@ class Baes::TreeBuilder
     _, name, number = branch.name.match(/(\A[a-zA-Z_-]+)(\d+)/).to_a
 
     if number
-      "#{name}#{(Integer(number, 10) - 1).to_s.rjust(number.length, '0')}"
+      "#{name}#{(Integer(number, 10) - 1).to_s.rjust(number.length, "0")}"
     else
       root_name
     end

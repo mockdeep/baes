@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'open3'
-require 'English'
+require "open3"
+require "English"
 
 module Baes::Git
   extend Baes::Configuration
@@ -31,7 +31,7 @@ module Baes::Git
 
     raise "failed to get branches" unless status.success?
 
-    stdout.lines.map { |line| line.sub(/^\*/, '').strip }
+    stdout.lines.map { |line| line.sub(/^\*/, "").strip }
   end
 
   def self.rebase_skip
@@ -44,10 +44,10 @@ module Baes::Git
   end
 
   def self.next_rebase_step
-    File.read('./.git/rebase-apply/next').strip
+    File.read("./.git/rebase-apply/next").strip
   end
 
   def self.last_rebase_step
-    File.read('./.git/rebase-apply/last').strip
+    File.read("./.git/rebase-apply/last").strip
   end
 end

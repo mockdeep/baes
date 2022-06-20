@@ -18,10 +18,10 @@ class Baes::Branch
     skip_through(other_branch) unless result.success?
   end
 
-  def inspect(indentation = '')
+  def inspect(indentation = "")
     children_strings =
       children.map do |child|
-        "\n#{child.inspect(indentation + '  ')}"
+        "\n#{child.inspect("#{indentation}  ")}"
       end
 
     "#{indentation}#{name}#{children_strings.join}"
@@ -35,12 +35,12 @@ class Baes::Branch
     answer = input.gets.chomp
     output.puts
 
-    if answer == 'y'
+    if answer == "y"
       result = git.rebase_skip
 
       skip_through(other_branch) unless result.success?
     else
-      abort 'failed to rebase, please resolve manually and then re-run baes'
+      abort "failed to rebase, please resolve manually and then re-run baes"
     end
   end
 
