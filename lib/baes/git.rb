@@ -6,13 +6,17 @@ require "English"
 module Baes::Git
   extend Baes::Configuration
 
+  class GitError < StandardError; end
+
   def self.checkout(branch_name)
     stdout, stderr, status = Open3.capture3("git checkout #{branch_name}")
 
     output.puts(stdout)
     output.puts(stderr) unless stderr.empty?
 
-    raise "failed to rebase on '#{branch_name}'" unless status.success?
+    return if status.success?
+
+    raise GitError, "failed to rebase on '#{branch_name}'"
   end
 
   def self.rebase(branch_name)
@@ -29,7 +33,7 @@ module Baes::Git
 
     output.puts(stderr) unless stderr.empty?
 
-    raise "failed to get branches" unless status.success?
+    raise GitError, "failed to get branches" unless status.success?
 
     stdout.lines.map { |line| line.sub(/^\*/, "").strip }
   end
