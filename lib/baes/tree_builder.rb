@@ -24,16 +24,20 @@ class Baes::TreeBuilder
   end
 
   def parent_name(branch)
-    _, name, number = branch.name.match(/(\A[a-zA-Z_-]+)(\d+)/).to_a
+    _, name, number = branch.name.match(/(\A[a-zA-Z_-]+)(\d+)$/).to_a
 
-    return unless number
+    return [name] unless number
 
-    "#{name}#{(Integer(number, 10) - 1).to_s.rjust(number.length, "0")}"
+    [name, Integer(number, 10) - 1]
   end
 
   def index_branches(branches)
     branches.each_with_object({}) do |branch, result|
-      result[branch.name] = branch
+      index = branch.index
+
+      raise Baes::Error, "duplicate branch index #{index}" if result[index]
+
+      result[index] = branch
     end
   end
 end

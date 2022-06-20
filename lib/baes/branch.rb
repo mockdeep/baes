@@ -2,14 +2,22 @@
 
 # class to encapsulate git branch and rebase behavior
 class Baes::Branch
-  attr_accessor :name, :children
+  attr_accessor :name, :base_name, :number, :children
 
   include Baes::Configuration
 
   # instantiate a new Baes::Branch with the given name
   def initialize(name)
-    @name = name
-    @children = []
+    self.name = name
+    _, base_name, number = name.match(/(\A[a-zA-Z_-]+)(\d+)$/).to_a
+    self.base_name = base_name || name
+    self.number = number && Integer(number, 10)
+    self.children = []
+  end
+
+  # return an array for use as a hash key
+  def index
+    [base_name, number].compact
   end
 
   # rebase this branch on top of passed branch
