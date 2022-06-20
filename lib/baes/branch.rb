@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
+# class to encapsulate git branch and rebase behavior
 class Baes::Branch
   attr_accessor :name, :children
 
   include Baes::Configuration
 
+  # instantiate a new Baes::Branch with the given name
   def initialize(name)
     @name = name
     @children = []
   end
 
+  # rebase this branch on top of passed branch
   def rebase(other_branch)
     git.checkout(name)
 
@@ -18,6 +21,7 @@ class Baes::Branch
     skip_through(other_branch) unless result.success?
   end
 
+  # return a formatted string of branch with children
   def inspect(indentation = "")
     children_strings =
       children.map do |child|

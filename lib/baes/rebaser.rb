@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# top-level class to orchestrate rebasing branches
 class Baes::Rebaser
   include Baes::Configuration
 
+  # parse options and rebase branches
   def call(options)
     root_name = options.find { |option| option != "--dry" } || detect_root_name
     root_branch = Baes::TreeBuilder.new.call(branches, root_name: root_name)
@@ -15,6 +17,8 @@ class Baes::Rebaser
 
     git.checkout(root_branch.name)
   end
+
+  private
 
   def branches
     @branches ||=
