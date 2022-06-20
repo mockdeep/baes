@@ -30,18 +30,22 @@ class Baes::Branch
   private
 
   def skip_through(other_branch)
-    output.puts("conflict rebasing branch #{name} on #{other_branch.name}")
-    output.print(skip_rebase_message)
-    answer = input.gets.chomp
-    output.puts
-
-    if answer == "y"
+    if confirm_skip(other_branch) == "y"
       result = git.rebase_skip
 
       skip_through(other_branch) unless result.success?
     else
       abort "failed to rebase, please resolve manually and then re-run baes"
     end
+  end
+
+  def confirm_skip(other_branch)
+    output.puts("conflict rebasing branch #{name} on #{other_branch.name}")
+    output.print(skip_rebase_message)
+    answer = input.gets.chomp
+    output.puts
+
+    answer
   end
 
   def skip_rebase_message

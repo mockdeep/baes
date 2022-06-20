@@ -6,26 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-# Configuration parameters: IgnoredMethods, CountRepeatedAttributes, Max.
-Metrics/AbcSize:
-  Exclude:
-    - 'lib/baes/branch.rb'
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: nested, compact
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'lib/baes.rb'
-
-# Offense count: 1
-# Configuration parameters: IgnoreModules.
-Style/ConstantVisibility:
-  Exclude:
-    - 'lib/baes/version.rb'
-
 # Offense count: 5
 # Configuration parameters: AllowedConstants.
 Style/Documentation:
@@ -49,8 +29,3 @@ Style/DocumentationMethod:
     - 'lib/baes/git.rb'
     - 'lib/baes/rebaser.rb'
     - 'lib/baes/tree_builder.rb'
-
-# Offense count: 2
-Style/ImplicitRuntimeError:
-  Exclude:
-    - 'lib/baes/git.rb'

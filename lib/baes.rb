@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-module Baes
-  class Error < StandardError; end
-end
+# namespace for all Baes code
+module Baes; end
+
+class Baes::Error < StandardError; end
 
 require_relative "baes/configuration"
 require_relative "baes/branch"
