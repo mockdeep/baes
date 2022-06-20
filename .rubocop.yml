@@ -8,8 +8,6 @@ AllCops:
 
 Bundler/GemVersion: { EnforcedStyle: forbidden }
 
-Lint/ConstantResolution: { Enabled: false }
-
 Metrics/BlockLength: { Exclude: ["spec/**/*_spec.rb"] }
 Style/ClassAndModuleChildren: { EnforcedStyle: compact }
 
@@ -33,4 +31,6 @@ Style/WordArray: { EnforcedStyle: brackets }
 Layout/LineLength:
   Max: 80
 
+Bundler/GemComment: { Enabled: false }
+Lint/ConstantResolution: { Enabled: false }
 Style/Copyright: { Enabled: false }
