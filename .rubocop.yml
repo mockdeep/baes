@@ -8,7 +8,16 @@ AllCops:
 
 Bundler/GemVersion: { EnforcedStyle: forbidden }
 
+Lint/ConstantResolution: { Enabled: false }
+
+Metrics/BlockLength: { Exclude: ["spec/**/*_spec.rb"] }
 Style/ClassAndModuleChildren: { EnforcedStyle: compact }
+
+Style/MethodCallWithArgsParentheses:
+  IgnoredMethods:
+    - describe
+    - raise
+    - to
 
 Style/StringLiterals:
   Enabled: true
@@ -17,6 +26,8 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   Enabled: true
   EnforcedStyle: double_quotes
+
+Style/WordArray: { EnforcedStyle: brackets }
 
 Layout/LineLength:
   Max: 80

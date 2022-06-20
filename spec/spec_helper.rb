@@ -1,28 +1,15 @@
 # frozen_string_literal: true
 
-require "simplecov"
-
-SimpleCov.start do
-  enable_coverage :branch
-end
+# coverage setup must come before loading lib/ code
+require "support/coverage"
 
 require "baes"
 
+require_relative "support/fake_git"
+require_relative "support/matchers"
+require_relative "support/stub_system"
+
 class TestingError < StandardError; end
-
-module Kernel
-  def `(command)
-    raise TestingError,
-          "Don't use system calls. " \
-          "Use `Open3.capture3` instead. Called with `#{command}`"
-  end
-
-  def system(command)
-    raise TestingError,
-          "Don't use system calls. " \
-          "Use `Open3.capture3` instead. Called with `#{command}`"
-  end
-end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -31,11 +18,9 @@ RSpec.configure do |config|
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
 
+  config.include(Matchers)
+
   config.expect_with :rspec do |c|
     c.syntax = :expect
-  end
-
-  config.before do
-    allow(Open3).to receive(:capture3)
   end
 end
