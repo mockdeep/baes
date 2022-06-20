@@ -40,7 +40,7 @@ class Matchers::Rebase
   def perform_change(event_proc)
     self.original_rebases = FakeGit.rebases.dup
 
-    event_proc.()
+    event_proc.call
 
     self.new_rebases = FakeGit.rebases.dup
   end

@@ -2,7 +2,7 @@
 
 RSpec.describe Baes do
   it "has a version number" do
-    expect(Baes::VERSION).not_to be nil
+    expect(Baes::VERSION).not_to be(nil)
   end
 
   it "does not allow backtick system calls" do

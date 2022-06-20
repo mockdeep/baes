@@ -7,68 +7,8 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
-Layout/EmptyLinesAroundModuleBody:
-  Exclude:
-    - 'lib/baes/git.rb'
-
-# Offense count: 3
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: Max, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, AllowedPatterns, IgnoredPatterns.
-# URISchemes: http, https
-Layout/LineLength:
-  Exclude:
-    - 'baes.gemspec'
-    - 'lib/baes/tree_builder.rb'
-
-# Offense count: 3
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedTypes: block, case, class, if, kwbegin, module
-# SupportedStyles: same_line, new_line
-Layout/MultilineAssignmentLayout:
-  Exclude:
-    - 'baes.gemspec'
-    - 'lib/baes/branch.rb'
-    - 'lib/baes/rebaser.rb'
-
-# Offense count: 36
-# Configuration parameters: Only, Ignore.
-Lint/ConstantResolution:
-  Exclude:
-    - 'Rakefile'
-    - 'baes.gemspec'
-    - 'bin/console'
-    - 'exe/baes'
-    - 'lib/baes/branch.rb'
-    - 'lib/baes/configuration.rb'
-    - 'lib/baes/git.rb'
-    - 'lib/baes/rebaser.rb'
-    - 'lib/baes/tree_builder.rb'
-    - 'spec/baes_spec.rb'
-    - 'spec/spec_helper.rb'
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: IgnoredMethods, IgnoredClasses.
-# IgnoredClasses: Time, DateTime
-Lint/NumberConversion:
-  Exclude:
-    - 'lib/baes/tree_builder.rb'
-
-# Offense count: 1
 # Configuration parameters: IgnoredMethods, CountRepeatedAttributes, Max.
 Metrics/AbcSize:
-  Exclude:
-    - 'lib/baes/branch.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: separated, grouped
-Style/AccessorGrouping:
   Exclude:
     - 'lib/baes/branch.rb'
 
@@ -79,15 +19,6 @@ Style/AccessorGrouping:
 Style/ClassAndModuleChildren:
   Exclude:
     - 'lib/baes.rb'
-
-# Offense count: 3
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: PreferredMethods, MethodsAcceptingSymbol.
-# MethodsAcceptingSymbol: inject, reduce
-Style/CollectionMethods:
-  Exclude:
-    - 'lib/baes/rebaser.rb'
-    - 'lib/baes/tree_builder.rb'
 
 # Offense count: 1
 # Configuration parameters: IgnoreModules.
@@ -119,57 +50,9 @@ Style/DocumentationMethod:
     - 'lib/baes/rebaser.rb'
     - 'lib/baes/tree_builder.rb'
 
-# Offense count: 5
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: always, always_true, never
-Style/FrozenStringLiteralComment:
-  Exclude:
-    - 'exe/baes'
-    - 'lib/baes/branch.rb'
-    - 'lib/baes/git.rb'
-    - 'lib/baes/rebaser.rb'
-    - 'lib/baes/tree_builder.rb'
-
 # Offense count: 2
 Style/ImplicitRuntimeError:
   Exclude:
-    - 'lib/baes/git.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: .
-# SupportedStyles: call, braces
-Style/LambdaCall:
-  EnforcedStyle: braces
-
-# Offense count: 18
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: IgnoreMacros, IgnoredMethods, AllowedPatterns, IgnoredPatterns, IncludedMacros, AllowParenthesesInMultilineCall, AllowParenthesesInChaining, AllowParenthesesInCamelCaseMethod, AllowParenthesesInStringInterpolation, EnforcedStyle.
-# SupportedStyles: require_parentheses, omit_parentheses
-Style/MethodCallWithArgsParentheses:
-  Exclude:
-    - 'lib/baes/branch.rb'
-    - 'lib/baes/git.rb'
-    - 'lib/baes/rebaser.rb'
-    - 'spec/baes_spec.rb'
-    - 'spec/spec_helper.rb'
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: literals, strict
-Style/MutableConstant:
-  Exclude:
-    - 'lib/baes/tree_builder.rb'
-
-# Offense count: 8
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: both, prefix, postfix
-Style/NegatedIf:
-  Exclude:
-    - 'lib/baes/branch.rb'
     - 'lib/baes/git.rb'
 
 # Offense count: 1
