@@ -41,8 +41,6 @@ class Baes::TreeBuilder
   end
 
   def find_branch(branches, name)
-    @branch_cache[name] ||=
-      branches.find { |branch| branch.name == name } ||
-      branches.find { |branch| branch.name.end_with?(name) }
+    @branch_cache[name] ||= branches.find { |branch| branch.name == name }
   end
 end
