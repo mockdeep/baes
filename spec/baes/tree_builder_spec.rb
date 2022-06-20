@@ -6,7 +6,7 @@ RSpec.describe Baes::TreeBuilder do
       branch1 = Baes::Branch.new("main")
       branch2 = Baes::Branch.new("some_branch")
 
-      described_class.new.call([branch1, branch2], root_name: "main")
+      described_class.new.call([branch1, branch2], root_branch: branch1)
 
       expect(branch1.children).to eq([branch2])
     end
@@ -15,8 +15,9 @@ RSpec.describe Baes::TreeBuilder do
       branch1 = Baes::Branch.new("main")
       branch2 = Baes::Branch.new("some_branch_1")
       branch3 = Baes::Branch.new("some_branch_2")
+      branches = [branch1, branch2, branch3]
 
-      described_class.new.call([branch1, branch2, branch3], root_name: "main")
+      described_class.new.call(branches, root_branch: branch1)
 
       expect(branch2.children).to eq([branch3])
     end
@@ -25,7 +26,7 @@ RSpec.describe Baes::TreeBuilder do
       branch1 = Baes::Branch.new("main")
       branch2 = Baes::Branch.new("some_branch_5")
 
-      described_class.new.call([branch1, branch2], root_name: "main")
+      described_class.new.call([branch1, branch2], root_branch: branch1)
 
       expect(branch1.children).to eq([branch2])
     end
@@ -34,8 +35,9 @@ RSpec.describe Baes::TreeBuilder do
       branch1 = Baes::Branch.new("main")
       branch2 = Baes::Branch.new("some_branch_09")
       branch3 = Baes::Branch.new("some_branch_10")
+      branches = [branch1, branch2, branch3]
 
-      described_class.new.call([branch1, branch2, branch3], root_name: "main")
+      described_class.new.call(branches, root_branch: branch1)
 
       expect(branch2.children).to eq([branch3])
     end

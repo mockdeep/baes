@@ -6,8 +6,8 @@ class Baes::Rebaser
 
   # parse options and rebase branches
   def call(options)
-    root_name = options.find { |option| option != "--dry" } || detect_root_name
-    root_branch = Baes::TreeBuilder.new.call(branches, root_name: root_name)
+    root_branch = find_root_branch(options)
+    Baes::TreeBuilder.new.call(branches, root_branch: root_branch)
 
     if options.any? { |option| option == "--dry" }
       output.puts(root_branch.inspect)
@@ -27,9 +27,14 @@ class Baes::Rebaser
       end
   end
 
-  def detect_root_name
-    root ||= "main" if branches.any? { |branch| branch.name == "main" }
-    root || "master"
+  def find_root_branch(options)
+    root_name = options.find { |option| option != "--dry" }
+
+    if root_name
+      branches.find { |branch| branch.name == root_name }
+    else
+      branches.find { |branch| ["main", "master"].include?(branch.name) }
+    end
   end
 
   def rebase_children(branch)
