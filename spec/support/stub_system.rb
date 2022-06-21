@@ -19,5 +19,7 @@ RSpec.configure do |config|
     allow(Open3).to receive(:capture3)
     Baes::Configuration.output = StringIO.new
     Baes::Configuration.input = StringIO.new
+    Baes::Configuration.root_name = nil
+    Baes::Configuration.dry_run = false
   end
 end

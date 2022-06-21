@@ -24,13 +24,13 @@ RSpec.describe Baes::Rebaser do
         .and(rebase("my_branch_2").on("my_branch_1"))
     end
 
-    context "when --dry" do
+    context "when --dry-run" do
       it "prints the branch chain" do
         FakeGit.branch_names = ["main", "my_branch_1", "my_branch_2"]
         output = StringIO.new
         Baes::Configuration.output = output
 
-        described_class.new.call(["--dry"])
+        described_class.new.call(["--dry-run"])
 
         expected_output = <<~TEXT
           main
@@ -44,7 +44,7 @@ RSpec.describe Baes::Rebaser do
       it "does not rebase branches" do
         FakeGit.branch_names = ["main", "my_branch_1", "my_branch_2"]
 
-        expect { described_class.new.call(["--dry"]) }
+        expect { described_class.new.call(["--dry-run"]) }
           .not_to(rebase("my_branch_1").on("main"))
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe Baes::Rebaser do
     it "uses a given base branch" do
       FakeGit.branch_names = ["staging", "my_branch_1", "my_branch_2"]
 
-      expect { described_class.new.call(["staging"]) }
+      expect { described_class.new.call(["--root", "staging"]) }
         .to rebase("my_branch_1").on("staging")
         .and(rebase("my_branch_2").on("my_branch_1"))
     end
