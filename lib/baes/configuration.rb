@@ -44,7 +44,7 @@ module Baes::Configuration
     @root_name = root_name
   end
 
-  # return whether dry run mode has been configured
+  # return whether dry run mode has been enabled
   def self.dry_run?
     !!@dry_run
   end
@@ -54,6 +54,16 @@ module Baes::Configuration
     @dry_run = dry_run
   end
 
+  # return whether auto skip mode has been enabled
+  def self.auto_skip?
+    !!@auto_skip
+  end
+
+  # allow setting auto skip mode
+  def self.auto_skip=(auto_skip)
+    @auto_skip = auto_skip
+  end
+
   # loads options, typically passed via the command line
   def load_options(options)
     parser = OptionParser.new
@@ -61,6 +71,7 @@ module Baes::Configuration
     configure_dry_run(parser)
     configure_help(parser)
     configure_root_name(parser)
+    configure_auto_skip(parser)
 
     parser.parse(options)
   end
@@ -109,6 +120,13 @@ module Baes::Configuration
     message = "specify a root branch to rebase on"
     parser.on("-r", "--root ROOT", message) do |root_name|
       Baes::Configuration.root_name = root_name
+    end
+  end
+
+  def configure_auto_skip(parser)
+    message = "automatically skip all but the most recent commit"
+    parser.on("--auto-skip", message) do
+      Baes::Configuration.auto_skip = true
     end
   end
 end

@@ -21,5 +21,6 @@ RSpec.configure do |config|
     Baes::Configuration.input = StringIO.new
     Baes::Configuration.root_name = nil
     Baes::Configuration.dry_run = false
+    Baes::Configuration.auto_skip = false
   end
 end

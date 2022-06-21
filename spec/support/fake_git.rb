@@ -22,8 +22,7 @@ module FakeGit
   def self.rebase(base_branch_name)
     rebases << [current_branch_name, base_branch_name]
 
-    success = rebases_successful.any? ? rebases_successful.shift : true
-    FakeStatus.new(success: success)
+    FakeStatus.new(success: next_success)
   end
 
   def self.branch_names
@@ -31,17 +30,38 @@ module FakeGit
   end
 
   def self.rebase_skip
-    FakeStatus.new(success: rebases_successful.shift)
+    FakeStatus.new(success: next_success)
   end
 
-  def self.next_rebase_step; end
+  def self.next_rebase_step
+    rebase_index
+  end
 
-  def self.last_rebase_step; end
+  def self.last_rebase_step
+    rebases_successful.length
+  end
 
   ### TEST METHODS ###
 
+  def self.next_success
+    if rebases_successful.any?
+      self.rebase_index += 1
+      rebases_successful[rebase_index - 1]
+    else
+      true
+    end
+  end
+
   def self.rebases
     @rebases
+  end
+
+  def self.rebase_index
+    @rebase_index
+  end
+
+  def self.rebase_index=(rebase_index)
+    @rebase_index = rebase_index
   end
 
   def self.current_branch_name=(branch_name)
@@ -69,6 +89,7 @@ module FakeGit
     @current_branch_name = nil
     @rebases = []
     @rebases_successful = []
+    @rebase_index = 0
   end
 end
 

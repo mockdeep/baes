@@ -54,11 +54,11 @@ module Baes::Git
 
   # return the commit number the rebase is currently halted on
   def self.next_rebase_step
-    File.read("./.git/rebase-apply/next").strip
+    Integer(File.read("./.git/rebase-apply/next"))
   end
 
   # return the number of commits in the rebase
   def self.last_rebase_step
-    File.read("./.git/rebase-apply/last").strip
+    Integer(File.read("./.git/rebase-apply/last"))
   end
 end

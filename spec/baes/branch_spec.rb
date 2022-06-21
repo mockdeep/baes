@@ -35,6 +35,18 @@ RSpec.describe Baes::Branch do
           .to rebase("my_branch").on("other_branch")
       end
 
+      it "continues the skip up to the last commit when auto skip" do
+        branch = described_class.new("my_branch")
+        other_branch = described_class.new("other_branch")
+        FakeGit.rebases_successful = [false, false, true]
+        Baes::Configuration.auto_skip = true
+        input.puts("y\n")
+        input.rewind
+
+        expect { branch.rebase(other_branch) }
+          .to rebase("my_branch").on("other_branch")
+      end
+
       it "aborts when the user enters anything else" do
         branch = described_class.new("my_branch")
         other_branch = described_class.new("other_branch")
