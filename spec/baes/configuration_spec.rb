@@ -10,5 +10,11 @@ RSpec.describe Baes::Configuration do
 
       expect(output.string).to include("prints this help")
     end
+
+    it "enables auto_skip given --auto-skip" do
+      load_options(["--auto-skip"])
+
+      expect(Baes::Configuration.auto_skip?).to be(true)
+    end
   end
 end

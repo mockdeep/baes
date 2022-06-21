@@ -116,7 +116,7 @@ RSpec.describe Baes::Git do
       path = "./.git/rebase-apply/next"
       expect(File).to receive(:read).with(path).and_return("42\n")
 
-      expect(described_class.next_rebase_step).to eq("42")
+      expect(described_class.next_rebase_step).to eq(42)
     end
   end
 
@@ -125,7 +125,7 @@ RSpec.describe Baes::Git do
       path = "./.git/rebase-apply/last"
       expect(File).to receive(:read).with(path).and_return("51\n")
 
-      expect(described_class.last_rebase_step).to eq("51")
+      expect(described_class.last_rebase_step).to eq(51)
     end
   end
 end
