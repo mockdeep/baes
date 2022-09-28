@@ -112,8 +112,18 @@ RSpec.describe Baes::Git do
   end
 
   describe "#next_rebase_step" do
-    it "returns the contents of the next rebase file" do
-      path = "./.git/rebase-apply/next"
+    it "returns the contents of the next rebase file when rebase-apply" do
+      path = "./.git/rebase-apply"
+      expect(Dir).to receive(:exist?).with(path).and_return(true)
+      expect(File).to receive(:read).with("#{path}/next").and_return("42\n")
+
+      expect(described_class.next_rebase_step).to eq(42)
+    end
+
+    it "returns the contents of the next rebase file when rebase-merge" do
+      apply_path = "./.git/rebase-apply"
+      path = "./.git/rebase-merge/msgnum"
+      expect(Dir).to receive(:exist?).with(apply_path).and_return(false)
       expect(File).to receive(:read).with(path).and_return("42\n")
 
       expect(described_class.next_rebase_step).to eq(42)
@@ -121,8 +131,18 @@ RSpec.describe Baes::Git do
   end
 
   describe "#last_rebase_step" do
-    it "returns the contents of the last rebase file" do
-      path = "./.git/rebase-apply/last"
+    it "returns the contents of the last rebase file when rebase-apply" do
+      path = "./.git/rebase-apply"
+      expect(Dir).to receive(:exist?).with(path).and_return(true)
+      expect(File).to receive(:read).with("#{path}/last").and_return("51\n")
+
+      expect(described_class.last_rebase_step).to eq(51)
+    end
+
+    it "returns the contents of the last rebase file when rebase-merge" do
+      apply_path = "./.git/rebase-apply"
+      path = "./.git/rebase-merge/end"
+      expect(Dir).to receive(:exist?).with(apply_path).and_return(false)
       expect(File).to receive(:read).with(path).and_return("51\n")
 
       expect(described_class.last_rebase_step).to eq(51)
