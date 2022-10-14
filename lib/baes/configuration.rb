@@ -44,6 +44,16 @@ module Baes::Configuration
     @root_name = root_name
   end
 
+  # return the configured ignored branches
+  def self.ignored_branch_names
+    @ignored_branch_names ||= []
+  end
+
+  # allow setting the ignored branch names
+  def self.ignored_branch_names=(ignored_branch_names)
+    @ignored_branch_names = ignored_branch_names
+  end
+
   # return whether dry run mode has been enabled
   def self.dry_run?
     !!@dry_run
@@ -72,6 +82,7 @@ module Baes::Configuration
     configure_help(parser)
     configure_root_name(parser)
     configure_auto_skip(parser)
+    configure_ignored_branches(parser)
 
     parser.parse(options)
   end
@@ -94,6 +105,11 @@ module Baes::Configuration
   # return the configured root name if given
   def root_name
     Baes::Configuration.root_name
+  end
+
+  # return the configured ignored branch names
+  def ignored_branch_names
+    Baes::Configuration.ignored_branch_names
   end
 
   # return whether dry run has been enabled
@@ -127,6 +143,13 @@ module Baes::Configuration
     message = "automatically skip all but the most recent commit"
     parser.on("--auto-skip", message) do
       Baes::Configuration.auto_skip = true
+    end
+  end
+
+  def configure_ignored_branches(parser)
+    message = "don't rebase specified branches or their child branches"
+    parser.on("-i", "--ignore BRANCH1,BRANCH2", Array, message) do |branches|
+      Baes::Configuration.ignored_branch_names += branches
     end
   end
 end
