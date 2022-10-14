@@ -16,5 +16,12 @@ RSpec.describe Baes::Configuration do
 
       expect(Baes::Configuration.auto_skip?).to be(true)
     end
+
+    it "configures ignored branches given --ignore" do
+      load_options(["--ignore", "branch_a,branch_b"])
+
+      expected_branches = ["branch_a", "branch_b"]
+      expect(Baes::Configuration.ignored_branch_names).to eq(expected_branches)
+    end
   end
 end

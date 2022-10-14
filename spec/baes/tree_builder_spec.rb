@@ -63,5 +63,30 @@ RSpec.describe Baes::TreeBuilder do
       expect { described_class.new.call(branches, root_branch: branch1) }
         .to raise_error(Baes::Error, message)
     end
+
+    it "prunes ignored branches" do
+      Baes::Configuration.ignored_branch_names = ["some_branch_10"]
+      branch1 = Baes::Branch.new("main")
+      branch2 = Baes::Branch.new("some_branch_9")
+      branch3 = Baes::Branch.new("some_branch_10")
+      branches = [branch1, branch2, branch3]
+
+      described_class.new.call(branches, root_branch: branch1)
+
+      expect(branch1.children).to eq([branch2])
+      expect(branch2.children).to be_empty
+    end
+
+    it "prunes descendant branches" do
+      Baes::Configuration.ignored_branch_names = ["some_branch_9"]
+      branch1 = Baes::Branch.new("main")
+      branch2 = Baes::Branch.new("some_branch_9")
+      branch3 = Baes::Branch.new("some_branch_10")
+      branches = [branch1, branch2, branch3]
+
+      described_class.new.call(branches, root_branch: branch1)
+
+      expect(branch1.children).to be_empty
+    end
   end
 end
