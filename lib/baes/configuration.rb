@@ -148,7 +148,7 @@ module Baes::Configuration
 
   def configure_ignored_branches(parser)
     message = "don't rebase specified branches or their child branches"
-    parser.on("-i", "--ignore BRANCH1,BRANCH2", Array, message) do |branches|
+    parser.on("--ignore BRANCH1,BRANCH2", Array, message) do |branches|
       Baes::Configuration.ignored_branch_names += branches
     end
   end
