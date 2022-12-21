@@ -103,4 +103,11 @@ module Baes::Configuration
   def dry_run?
     Baes::Configuration.dry_run?
   end
+
+  # clear all configuration
+  def self.reset
+    instance_variables.each do |ivar|
+      remove_instance_variable(ivar)
+    end
+  end
 end
