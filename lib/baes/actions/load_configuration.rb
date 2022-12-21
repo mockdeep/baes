@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "optparse"
+
 # callable module to load configuration
 module Baes::Actions::LoadConfiguration
   class << self

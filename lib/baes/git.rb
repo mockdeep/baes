@@ -5,7 +5,7 @@ require "English"
 
 # module to encapsulate git commands in the shell
 module Baes::Git
-  extend Baes::Configuration
+  extend Baes::Configuration::Helpers
 
   class GitError < StandardError; end
 

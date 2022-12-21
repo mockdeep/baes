@@ -2,7 +2,7 @@
 
 # top-level class to orchestrate rebasing branches
 class Baes::Actions::Rebase
-  include Baes::Configuration
+  include Baes::Configuration::Helpers
 
   # parse options and rebase branches
   def call(options)

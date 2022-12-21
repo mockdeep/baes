@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Baes::Branch do
-  include Baes::Configuration
+  include Baes::Configuration::Helpers
 
   describe "#rebase" do
     it "rebases on the other branch" do
