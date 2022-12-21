@@ -4,7 +4,7 @@ SKIP_BRANCHES = ["staging", "main", "master"].freeze
 
 # class that generates a tree of dependent branches
 class Baes::Actions::BuildTree
-  include Baes::Configuration
+  include Baes::Configuration::Helpers
 
   # generate a tree of Branch records linked to their children
   def call(branches, root_branch:)

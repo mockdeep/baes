@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Baes::Git do
-  include Baes::Configuration
+  include Baes::Configuration::Helpers
 
   def stub3(command, stdout: "", stderr: "", success: true)
     status = instance_double(Process::Status, success?: success)

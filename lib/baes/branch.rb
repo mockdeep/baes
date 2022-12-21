@@ -4,7 +4,7 @@
 class Baes::Branch
   attr_accessor :name, :base_name, :number, :children
 
-  include Baes::Configuration
+  include Baes::Configuration::Helpers
 
   # instantiate a new Baes::Branch with the given name
   def initialize(name)
