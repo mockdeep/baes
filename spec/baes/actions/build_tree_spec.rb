@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Baes::TreeBuilder do
+RSpec.describe Baes::Actions::BuildTree do
   describe "#call" do
     it "links branches to the root branch" do
       branch1 = Baes::Branch.new("main")
