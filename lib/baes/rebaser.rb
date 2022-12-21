@@ -6,7 +6,7 @@ class Baes::Rebaser
 
   # parse options and rebase branches
   def call(options)
-    load_options(options)
+    Baes::Actions::LoadConfiguration.call(options)
     root_branch = find_root_branch
     Baes::TreeBuilder.new.call(branches, root_branch: root_branch)
 
