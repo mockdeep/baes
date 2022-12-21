@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 # top-level class to orchestrate rebasing branches
-class Baes::Rebaser
+class Baes::Actions::Rebase
   include Baes::Configuration
 
   # parse options and rebase branches
   def call(options)
     Baes::Actions::LoadConfiguration.call(options)
     root_branch = find_root_branch
-    Baes::TreeBuilder.new.call(branches, root_branch: root_branch)
+    Baes::Actions::BuildTree.new.call(branches, root_branch: root_branch)
 
     if dry_run?
       output.puts(root_branch.inspect)

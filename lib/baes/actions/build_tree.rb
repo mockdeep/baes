@@ -3,7 +3,7 @@
 SKIP_BRANCHES = ["staging", "main", "master"].freeze
 
 # class that generates a tree of dependent branches
-class Baes::TreeBuilder
+class Baes::Actions::BuildTree
   include Baes::Configuration
 
   # generate a tree of Branch records linked to their children

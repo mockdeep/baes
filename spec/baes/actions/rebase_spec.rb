@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Baes::Rebaser do
+RSpec.describe Baes::Actions::Rebase do
   describe "#call" do
     it "rebases branches on main" do
       FakeGit.branch_names = ["main", "my_branch"]
