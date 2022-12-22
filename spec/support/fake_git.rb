@@ -26,7 +26,7 @@ module FakeGit
   end
 
   def self.branch_names
-    @branch_names
+    @branch_names ||= ""
   end
 
   def self.rebase_skip
@@ -53,11 +53,11 @@ module FakeGit
   end
 
   def self.rebases
-    @rebases
+    @rebases ||= []
   end
 
   def self.rebase_index
-    @rebase_index
+    @rebase_index ||= 0
   end
 
   def self.rebase_index=(rebase_index)
@@ -77,7 +77,7 @@ module FakeGit
   end
 
   def self.rebases_successful
-    @rebases_successful
+    @rebases_successful ||= []
   end
 
   def self.rebases_successful=(rebases_successful)
@@ -85,17 +85,18 @@ module FakeGit
   end
 
   def self.reset
-    @branch_names = ""
-    @current_branch_name = nil
-    @rebases = []
-    @rebases_successful = []
-    @rebase_index = 0
+    instance_variables.each do |ivar|
+      remove_instance_variable(ivar)
+    end
   end
 end
 
 RSpec.configure do |config|
   config.before do
     Baes::Configuration.git = FakeGit
+  end
+
+  config.after do
     FakeGit.reset
   end
 end
