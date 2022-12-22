@@ -6,7 +6,7 @@ RSpec.describe Baes::Actions::BuildTree do
       branch1 = Baes::Branch.new("main")
       branch2 = Baes::Branch.new("some_branch")
 
-      described_class.new.call([branch1, branch2], root_branch: branch1)
+      described_class.call([branch1, branch2], root_branch: branch1)
 
       expect(branch1.children).to eq([branch2])
     end
@@ -17,7 +17,7 @@ RSpec.describe Baes::Actions::BuildTree do
       branch3 = Baes::Branch.new("some_branch_2")
       branches = [branch1, branch2, branch3]
 
-      described_class.new.call(branches, root_branch: branch1)
+      described_class.call(branches, root_branch: branch1)
 
       expect(branch2.children).to eq([branch3])
     end
@@ -26,7 +26,7 @@ RSpec.describe Baes::Actions::BuildTree do
       branch1 = Baes::Branch.new("main")
       branch2 = Baes::Branch.new("some_branch_5")
 
-      described_class.new.call([branch1, branch2], root_branch: branch1)
+      described_class.call([branch1, branch2], root_branch: branch1)
 
       expect(branch1.children).to eq([branch2])
     end
@@ -37,7 +37,7 @@ RSpec.describe Baes::Actions::BuildTree do
       branch3 = Baes::Branch.new("some_branch_10")
       branches = [branch1, branch2, branch3]
 
-      described_class.new.call(branches, root_branch: branch1)
+      described_class.call(branches, root_branch: branch1)
 
       expect(branch2.children).to eq([branch3])
     end
@@ -48,7 +48,7 @@ RSpec.describe Baes::Actions::BuildTree do
       branch3 = Baes::Branch.new("some_branch_10")
       branches = [branch1, branch2, branch3]
 
-      described_class.new.call(branches, root_branch: branch1)
+      described_class.call(branches, root_branch: branch1)
 
       expect(branch2.children).to eq([branch3])
     end
@@ -60,7 +60,7 @@ RSpec.describe Baes::Actions::BuildTree do
       branches = [branch1, branch2, branch3]
       message = "duplicate branch index [\"some_branch_\", 9]"
 
-      expect { described_class.new.call(branches, root_branch: branch1) }
+      expect { described_class.call(branches, root_branch: branch1) }
         .to raise_error(Baes::Error, message)
     end
 
@@ -71,7 +71,7 @@ RSpec.describe Baes::Actions::BuildTree do
       branch3 = Baes::Branch.new("some_branch_10")
       branches = [branch1, branch2, branch3]
 
-      described_class.new.call(branches, root_branch: branch1)
+      described_class.call(branches, root_branch: branch1)
 
       expect(branch1.children).to eq([branch2])
       expect(branch2.children).to be_empty
@@ -84,7 +84,7 @@ RSpec.describe Baes::Actions::BuildTree do
       branch3 = Baes::Branch.new("some_branch_10")
       branches = [branch1, branch2, branch3]
 
-      described_class.new.call(branches, root_branch: branch1)
+      described_class.call(branches, root_branch: branch1)
 
       expect(branch1.children).to be_empty
     end
