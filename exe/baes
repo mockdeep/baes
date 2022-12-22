@@ -3,4 +3,4 @@
 
 require_relative "../lib/baes"
 
-Baes::Actions::Rebase.new.call(ARGV)
+Baes::Actions::Rebase.call(ARGV)
