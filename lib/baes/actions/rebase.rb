@@ -5,9 +5,8 @@ class Baes::Actions::Rebase
   class << self
     include Baes::Configuration::Helpers
 
-    # parse options and rebase branches
-    def call(options)
-      Baes::Actions::LoadConfiguration.call(options)
+    # rebase branches
+    def call
       branches = generate_branches
       root_branch = find_root_branch(branches)
       Baes::Actions::BuildTree.call(branches, root_branch: root_branch)
