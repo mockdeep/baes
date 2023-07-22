@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "open3"
 require "English"
+require "open3"
 
 # module to encapsulate git commands in the shell
 module Baes::Git

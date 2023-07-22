@@ -16,7 +16,7 @@ Metrics/BlockLength: { Exclude: ["spec/**/*_spec.rb"] }
 Style/ClassAndModuleChildren: { EnforcedStyle: compact }
 
 Style/MethodCallWithArgsParentheses:
-  IgnoredMethods:
+  AllowedMethods:
     - abort
     - describe
     - not_to
