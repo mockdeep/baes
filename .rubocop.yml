@@ -13,11 +13,13 @@ AllCops:
 Bundler/GemVersion: { EnforcedStyle: forbidden }
 
 Metrics/BlockLength: { Exclude: ["spec/**/*_spec.rb"] }
+RSpec/MessageExpectation: { EnforcedStyle: expect }
 Style/ClassAndModuleChildren: { EnforcedStyle: compact }
 
 Style/MethodCallWithArgsParentheses:
   AllowedMethods:
     - abort
+    - and
     - describe
     - not_to
     - raise
@@ -38,6 +40,8 @@ Layout/LineLength:
 
 Bundler/GemComment: { Enabled: false }
 Lint/ConstantResolution: { Enabled: false }
+RSpec/StubbedMock: { Enabled: false }
 Style/ConstantVisibility: { Enabled: false }
 Style/Copyright: { Enabled: false }
 Style/InlineComment: { Enabled: false }
+Style/MissingElse: { Enabled: false }

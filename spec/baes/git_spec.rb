@@ -60,6 +60,31 @@ RSpec.describe Baes::Git do
     end
   end
 
+  describe "#current_branch_name" do
+    it "prints stderr when present" do
+      stub3("git rev-parse --abbrev-ref HEAD", stderr: "error")
+
+      described_class.current_branch_name
+
+      expect(output.string).to eq("error\n")
+    end
+
+    it "raises an error when status is not success" do
+      stub3("git rev-parse --abbrev-ref HEAD", success: false)
+
+      expect { described_class.current_branch_name }
+        .to raise_error("failed to get current branch")
+    end
+
+    it "returns the current branch name from stdout" do
+      stub3("git rev-parse --abbrev-ref HEAD", stdout: "main")
+
+      result = described_class.current_branch_name
+
+      expect(result).to eq("main")
+    end
+  end
+
   describe "#branch_names" do
     it "prints stderr when present" do
       stub3("git branch", stdout: "out", stderr: "error")

@@ -23,4 +23,11 @@ RSpec.configure do |config|
     Baes::Configuration.dry_run = false
     Baes::Configuration.auto_skip = false
   end
+
+  config.around do |example|
+    example.run
+  rescue SystemExit => e
+    puts(e.backtrace)
+    raise StandardError, "uncaught SystemExit"
+  end
 end
