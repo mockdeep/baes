@@ -31,6 +31,17 @@ module Baes::Git
     status
   end
 
+  # get current branch name and raise on error
+  def self.current_branch_name
+    stdout, stderr, status = Open3.capture3("git rev-parse --abbrev-ref HEAD")
+
+    output.puts(stderr) unless stderr.empty?
+
+    raise GitError, "failed to get current branch" unless status.success?
+
+    stdout.strip
+  end
+
   # list branch names and raise on failure
   def self.branch_names
     stdout, stderr, status = Open3.capture3("git branch")

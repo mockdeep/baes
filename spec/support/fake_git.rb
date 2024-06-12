@@ -26,7 +26,7 @@ module FakeGit
   end
 
   def self.branch_names
-    @branch_names ||= ""
+    @branch_names ||= []
   end
 
   def self.rebase_skip

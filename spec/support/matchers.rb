@@ -6,4 +6,5 @@ module Matchers
   end
 end
 
+require_relative "matchers/capture_configured_output"
 require_relative "matchers/rebase"
