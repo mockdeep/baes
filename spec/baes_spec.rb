@@ -10,8 +10,7 @@ RSpec.describe Baes do
       "Don't use system calls. Use `Open3.capture3` instead. " \
       "Called with `echo 'blah'`"
 
-    expect { `echo 'blah'` }
-      .to raise_error(TestingError, message)
+    expect { `echo 'blah'` }.to raise_error(TestingError, message)
   end
 
   it "does not allow system calls" do
@@ -19,7 +18,6 @@ RSpec.describe Baes do
       "Don't use system calls. Use `Open3.capture3` instead. " \
       "Called with `echo 'blah'`"
 
-    expect { system("echo 'blah'") }
-      .to raise_error(TestingError, message)
+    expect { system("echo 'blah'") }.to raise_error(TestingError, message)
   end
 end

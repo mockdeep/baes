@@ -8,7 +8,9 @@ class Baes::Actions::BuildTree
     include Baes::Configuration::Helpers
 
     # generate a tree of Branch records linked to their children
-    def call(branches, root_branch:)
+    def call
+      branches = generate_branches
+      root_branch = find_root_branch(branches)
       indexed_branches = index_branches(branches)
 
       branches.each do |branch|
@@ -20,9 +22,24 @@ class Baes::Actions::BuildTree
       end
 
       prune(root_branch)
+      branches
     end
 
     private
+
+    def find_root_branch(branches)
+      if root_name
+        branches.find { |branch| branch.name == root_name }
+      else
+        branches.find { |branch| ["main", "master"].include?(branch.name) }
+      end
+    end
+
+    def generate_branches
+      git.branch_names.map do |branch_name|
+        Baes::Branch.new(branch_name)
+      end
+    end
 
     def prune(branch)
       branch.children.delete_if do |child|

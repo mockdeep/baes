@@ -9,9 +9,8 @@ module Baes::Actions::Bisect
     # run the command and return the first branch that fails
     def call(command_args)
       output.puts("searching for branch that fails command: `#{command_args}`")
-      branches = generate_branches
+      branches = Baes::Actions::BuildTree.call
       root_branch = find_root_branch(branches)
-      Baes::Actions::BuildTree.call(branches, root_branch: root_branch)
 
       current_branch_name = git.current_branch_name
       current_branch =
@@ -31,12 +30,6 @@ module Baes::Actions::Bisect
     end
 
     private
-
-    def generate_branches
-      git.branch_names.map do |branch_name|
-        Baes::Branch.new(branch_name)
-      end
-    end
 
     def find_root_branch(branches)
       if root_name
