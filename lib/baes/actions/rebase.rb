@@ -8,7 +8,7 @@ class Baes::Actions::Rebase
     # rebase branches
     def call
       branches = Baes::Actions::BuildTree.call
-      root_branch = find_root_branch(branches)
+      root_branch = branches.root
 
       if dry_run?
         output.puts(root_branch.inspect)
@@ -20,14 +20,6 @@ class Baes::Actions::Rebase
     end
 
     private
-
-    def find_root_branch(branches)
-      if root_name
-        branches.find { |branch| branch.name == root_name }
-      else
-        branches.find { |branch| ["main", "master"].include?(branch.name) }
-      end
-    end
 
     def rebase_children(branch)
       branch.children.each do |child_branch|

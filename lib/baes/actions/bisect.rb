@@ -10,11 +10,9 @@ module Baes::Actions::Bisect
     def call(command_args)
       output.puts("searching for branch that fails command: `#{command_args}`")
       branches = Baes::Actions::BuildTree.call
-      root_branch = find_root_branch(branches)
 
       current_branch_name = git.current_branch_name
-      current_branch =
-        branches.find { |branch| branch.name == current_branch_name }
+      current_branch = branches.find_by_name(current_branch_name)
 
       _, _, status = Open3.capture3(command_args)
 
@@ -23,21 +21,13 @@ module Baes::Actions::Bisect
       end
 
       fail_branch =
-        find_failing_branch(root_branch, current_branch, command_args)
+        find_failing_branch(branches.root, current_branch, command_args)
 
       git.checkout(fail_branch.name)
       output.puts("first failing branch: #{fail_branch.name}")
     end
 
     private
-
-    def find_root_branch(branches)
-      if root_name
-        branches.find { |branch| branch.name == root_name }
-      else
-        branches.find { |branch| ["main", "master"].include?(branch.name) }
-      end
-    end
 
     def find_failing_branch(success_branch, fail_branch, command_args)
       next_branch = find_middle_branch(success_branch, fail_branch)

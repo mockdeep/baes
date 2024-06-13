@@ -10,30 +10,21 @@ class Baes::Actions::BuildTree
     # generate a tree of Branch records linked to their children
     def call
       branches = generate_branches
-      root_branch = find_root_branch(branches)
       indexed_branches = index_branches(branches)
 
       branches.each do |branch|
         link_branch_to_parent(
           branch,
           indexed_branches,
-          root_branch: root_branch
+          root_branch: branches.root
         )
       end
 
-      prune(root_branch)
+      prune(branches.root)
       branches
     end
 
     private
-
-    def find_root_branch(branches)
-      if root_name
-        branches.find { |branch| branch.name == root_name }
-      else
-        branches.find { |branch| ["main", "master"].include?(branch.name) }
-      end
-    end
 
     def generate_branches
       branches = Baes::BranchCollection.new
