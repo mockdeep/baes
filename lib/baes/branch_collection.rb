@@ -24,9 +24,19 @@ class Baes::BranchCollection
     branches.find { |branch| branch.name == name }
   end
 
+  # find a branch by base name
+  def find_by_base_name(base_name)
+    branches.find { |branch| branch.base_name == base_name }
+  end
+
   # add a branch
   def <<(branch)
     branches << branch
+  end
+
+  # delete a branch if the block returns true
+  def delete_if(&block)
+    branches.delete_if(&block)
   end
 
   # iterate over each branch with object
@@ -37,6 +47,16 @@ class Baes::BranchCollection
   # iterate over each branch
   def each(&block)
     branches.each(&block)
+  end
+
+  # return true if there are no branches
+  def empty?
+    branches.empty?
+  end
+
+  # iterate over each branch and return the result
+  def map(&block)
+    branches.map(&block)
   end
 
   # return the first branch

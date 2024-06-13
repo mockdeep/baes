@@ -12,7 +12,7 @@ class Baes::Branch
     _, base_name, number = name.match(/(\A[a-zA-Z_-]+)(\d+)$/).to_a
     self.base_name = base_name || name
     self.number = number && Integer(number, 10)
-    self.children = []
+    self.children = Baes::BranchCollection.new
   end
 
   # return an array for use as a hash key
