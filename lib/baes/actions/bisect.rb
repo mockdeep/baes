@@ -51,10 +51,7 @@ module Baes::Actions::Bisect
       start_number = success_branch.number
 
       child_branch =
-        success_branch.children.find do |next_child_branch|
-          next_child_branch.base_name == fail_branch.base_name
-        end
-
+        success_branch.children.find_by_base_name(fail_branch.base_name)
       start_number ||= child_branch.number
 
       middle_number = (start_number + end_number) / 2
@@ -63,9 +60,7 @@ module Baes::Actions::Bisect
 
       while next_branch.number < middle_number
         next_branch =
-          next_branch.children.find do |next_child_branch|
-            next_child_branch.base_name == fail_branch.base_name
-          end
+          next_branch.children.find_by_base_name(fail_branch.base_name)
       end
 
       next_branch
