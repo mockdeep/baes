@@ -36,9 +36,11 @@ class Baes::Actions::BuildTree
     end
 
     def generate_branches
-      git.branch_names.map do |branch_name|
-        Baes::Branch.new(branch_name)
+      branches = Baes::BranchCollection.new
+      git.branch_names.each do |branch_name|
+        branches << Baes::Branch.new(branch_name)
       end
+      branches
     end
 
     def prune(branch)
