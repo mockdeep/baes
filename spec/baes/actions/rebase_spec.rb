@@ -5,15 +5,13 @@ RSpec.describe Baes::Actions::Rebase do
     it "rebases branches on main" do
       FakeGit.branch_names = ["main", "my_branch"]
 
-      expect { described_class.call }
-        .to rebase("my_branch").on("main")
+      expect { described_class.call }.to rebase("my_branch").on("main")
     end
 
     it "rebases branches on master" do
       FakeGit.branch_names = ["master", "my_branch"]
 
-      expect { described_class.call }
-        .to rebase("my_branch").on("master")
+      expect { described_class.call }.to rebase("my_branch").on("master")
     end
 
     it "rebases chained branches" do
@@ -46,8 +44,7 @@ RSpec.describe Baes::Actions::Rebase do
         FakeGit.branch_names = ["main", "my_branch_1", "my_branch_2"]
         Baes::Configuration.dry_run = true
 
-        expect { described_class.call }
-          .not_to(rebase("my_branch_1").on("main"))
+        expect { described_class.call }.not_to(rebase("my_branch_1").on("main"))
       end
     end
 

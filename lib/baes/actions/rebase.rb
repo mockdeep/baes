@@ -7,9 +7,8 @@ class Baes::Actions::Rebase
 
     # rebase branches
     def call
-      branches = generate_branches
+      branches = Baes::Actions::BuildTree.call
       root_branch = find_root_branch(branches)
-      Baes::Actions::BuildTree.call(branches, root_branch: root_branch)
 
       if dry_run?
         output.puts(root_branch.inspect)
@@ -21,12 +20,6 @@ class Baes::Actions::Rebase
     end
 
     private
-
-    def generate_branches
-      git.branch_names.map do |branch_name|
-        Baes::Branch.new(branch_name)
-      end
-    end
 
     def find_root_branch(branches)
       if root_name

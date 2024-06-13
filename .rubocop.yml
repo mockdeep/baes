@@ -39,6 +39,7 @@ Layout/LineLength:
   Max: 80
 
 Bundler/GemComment: { Enabled: false }
+Layout/SingleLineBlockChain: { Enabled: false }
 Lint/ConstantResolution: { Enabled: false }
 RSpec/StubbedMock: { Enabled: false }
 Style/ConstantVisibility: { Enabled: false }
