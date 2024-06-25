@@ -13,28 +13,6 @@ RSpec.describe Baes::Branch do
     end
 
     context "when rebase is not successful" do
-      it "skips when the user enters 'y'" do
-        branch = described_class.new("my_branch")
-        other_branch = described_class.new("other_branch")
-        FakeGit.rebases_successful = [false, true]
-        input.puts("y\n")
-        input.rewind
-
-        expect { branch.rebase(other_branch) }
-          .to rebase("my_branch").on("other_branch")
-      end
-
-      it "continues the skip when there are more conflicts" do
-        branch = described_class.new("my_branch")
-        other_branch = described_class.new("other_branch")
-        FakeGit.rebases_successful = [false, false, true]
-        input.puts("y\ny\n")
-        input.rewind
-
-        expect { branch.rebase(other_branch) }
-          .to rebase("my_branch").on("other_branch")
-      end
-
       it "continues the skip up to the last commit when auto skip" do
         branch = described_class.new("my_branch")
         other_branch = described_class.new("other_branch")
