@@ -42,7 +42,7 @@ class Baes::Branch
   private
 
   def skip_through(other_branch)
-    if auto_skip? || confirm_skip(other_branch) == "y"
+    if auto_skip?
       result = git.rebase_skip
 
       skip_through(other_branch) unless result.success?
@@ -51,21 +51,8 @@ class Baes::Branch
     end
   end
 
-  def confirm_skip(other_branch)
-    output.puts("conflict rebasing branch #{name} on #{other_branch.name}")
-    output.print(skip_rebase_message)
-    answer = input.gets.chomp
-    output.puts
-
-    answer
-  end
-
   def auto_skip?
     Baes::Configuration.auto_skip? &&
       git.next_rebase_step < git.last_rebase_step
-  end
-
-  def skip_rebase_message
-    "skip commit #{git.next_rebase_step} of #{git.last_rebase_step}? (y/n)"
   end
 end
