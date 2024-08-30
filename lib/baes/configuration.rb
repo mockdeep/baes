@@ -34,7 +34,15 @@ module Baes::Configuration
 
   # return the configured root_name
   def self.root_name
-    @root_name
+    @root_name ||=
+      begin
+        root = (["main", "master"] & git.branch_names).first
+
+        message = "unable to infer root branch, please specify with -r"
+        raise Baes::Git::GitError, message unless root
+
+        root
+      end
   end
 
   # allow setting the root_name

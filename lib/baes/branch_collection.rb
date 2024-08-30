@@ -12,11 +12,7 @@ class Baes::BranchCollection
 
   # return the root branch
   def root
-    if root_name
-      find_by_name(root_name)
-    else
-      find_by_name("main") || find_by_name("master")
-    end
+    find_by_name(root_name)
   end
 
   # find a branch by name
