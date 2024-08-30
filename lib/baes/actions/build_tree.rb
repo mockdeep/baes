@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-SKIP_BRANCHES = ["staging", "main", "master"].freeze
-
 # class that generates a tree of dependent branches
 class Baes::Actions::BuildTree
   class << self
@@ -43,7 +41,7 @@ class Baes::Actions::BuildTree
     end
 
     def link_branch_to_parent(branch, indexed_branches, root_branch:)
-      return if branch == root_branch || SKIP_BRANCHES.include?(branch.name)
+      return if branch == root_branch
 
       parent_branch = indexed_branches.fetch(parent_name(branch), root_branch)
 
