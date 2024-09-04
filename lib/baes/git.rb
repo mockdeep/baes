@@ -12,56 +12,31 @@ module Baes::Git
   class << self
     # checkout git branch and raise error on failure
     def checkout(branch_name)
-      stdout, stderr, status = Open3.capture3("git checkout #{branch_name}")
+      stdout = run_or_raise("git checkout #{branch_name}")
 
       output.puts(stdout)
-      output.puts(stderr) unless stderr.empty?
-
-      return if status.success?
-
-      raise GitError, "failed to rebase on '#{branch_name}'"
     end
 
     # rebase current branch on given branch name and return status
     def rebase(branch_name)
-      stdout, stderr, status = Open3.capture3("git rebase #{branch_name}")
-
-      output.puts(stdout)
-      output.puts(stderr) unless stderr.empty?
-
-      status
+      run_returning_status("git rebase #{branch_name}")
     end
 
     # get current branch name and raise on error
     def current_branch_name
-      stdout, stderr, status = Open3.capture3("git rev-parse --abbrev-ref HEAD")
-
-      output.puts(stderr) unless stderr.empty?
-
-      raise GitError, "failed to get current branch" unless status.success?
-
-      stdout.strip
+      run_or_raise("git rev-parse --abbrev-ref HEAD")
     end
 
     # list branch names and raise on failure
     def branch_names
-      stdout, stderr, status = Open3.capture3("git branch")
-
-      output.puts(stderr) unless stderr.empty?
-
-      raise GitError, "failed to get branches" unless status.success?
+      stdout = run_or_raise("git branch")
 
       stdout.lines.map { |line| line.sub(/^\*/, "").strip }
     end
 
     # skip current commit during rebase and return status
     def rebase_skip
-      stdout, stderr, status = Open3.capture3("git rebase --skip")
-
-      output.puts(stdout)
-      output.puts(stderr) unless stderr.empty?
-
-      status
+      run_returning_status("git rebase --skip")
     end
 
     # return the commit number the rebase is currently halted on
@@ -80,6 +55,29 @@ module Baes::Git
       else
         Integer(File.read("./.git/rebase-merge/end"))
       end
+    end
+
+    private
+
+    def run_or_raise(command)
+      stdout, stderr, status = Open3.capture3(command)
+
+      unless status.success?
+        output.puts(stderr)
+
+        raise GitError, "failed to run '#{command}'"
+      end
+
+      stdout.strip
+    end
+
+    def run_returning_status(command)
+      stdout, stderr, status = Open3.capture3(command)
+
+      output.puts(stdout)
+      output.puts(stderr) unless stderr.empty?
+
+      status
     end
   end
 end

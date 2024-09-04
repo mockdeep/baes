@@ -9,6 +9,12 @@ RSpec.describe Baes::Git do
     expect(Open3).to receive(:capture3).with(command).and_return(result)
   end
 
+  def run_and_rescue
+    yield
+  rescue StandardError
+    nil
+  end
+
   describe "#checkout" do
     it "prints stdout" do
       stub3("git checkout my_branch", stdout: "out")
@@ -18,19 +24,21 @@ RSpec.describe Baes::Git do
       expect(output.string).to eq("out\n")
     end
 
-    it "prints stderr when present" do
-      stub3("git checkout my_branch", stdout: "out", stderr: "error")
+    context "when command is not successful" do
+      it "prints stdout and stderr" do
+        stub3("git checkout my_branch", stderr: "error", success: false)
 
-      described_class.checkout("my_branch")
+        run_and_rescue { described_class.checkout("my_branch") }
 
-      expect(output.string).to eq("out\nerror\n")
-    end
+        expect(output.string).to eq("error\n")
+      end
 
-    it "raises an error when command is not successful" do
-      stub3("git checkout my_branch", success: false)
+      it "raises an error" do
+        stub3("git checkout my_branch", success: false)
 
-      expect { described_class.checkout("my_branch") }
-        .to raise_error("failed to rebase on 'my_branch'")
+        expect { described_class.checkout("my_branch") }
+          .to raise_error("failed to run 'git checkout my_branch'")
+      end
     end
   end
 
@@ -61,19 +69,22 @@ RSpec.describe Baes::Git do
   end
 
   describe "#current_branch_name" do
-    it "prints stderr when present" do
-      stub3("git rev-parse --abbrev-ref HEAD", stderr: "error")
+    context "when command is not successful" do
+      it "prints stderr" do
+        command = "git rev-parse --abbrev-ref HEAD"
+        stub3(command, stderr: "error", success: false)
 
-      described_class.current_branch_name
+        run_and_rescue { described_class.current_branch_name }
 
-      expect(output.string).to eq("error\n")
-    end
+        expect(output.string).to eq("error\n")
+      end
 
-    it "raises an error when status is not success" do
-      stub3("git rev-parse --abbrev-ref HEAD", success: false)
+      it "raises an error" do
+        stub3("git rev-parse --abbrev-ref HEAD", success: false)
 
-      expect { described_class.current_branch_name }
-        .to raise_error("failed to get current branch")
+        expect { described_class.current_branch_name }
+          .to raise_error("failed to run 'git rev-parse --abbrev-ref HEAD'")
+      end
     end
 
     it "returns the current branch name from stdout" do
@@ -86,19 +97,21 @@ RSpec.describe Baes::Git do
   end
 
   describe "#branch_names" do
-    it "prints stderr when present" do
-      stub3("git branch", stdout: "out", stderr: "error")
+    context "when command is not successful" do
+      it "prints stderr" do
+        stub3("git branch", stderr: "error", success: false)
 
-      described_class.branch_names
+        run_and_rescue { described_class.branch_names }
 
-      expect(output.string).to eq("error\n")
-    end
+        expect(output.string).to eq("error\n")
+      end
 
-    it "raises an error when status is not success" do
-      stub3("git branch", success: false)
+      it "raises an error when status is not success" do
+        stub3("git branch", success: false)
 
-      expect { described_class.branch_names }
-        .to raise_error("failed to get branches")
+        expect { described_class.branch_names }
+          .to raise_error("failed to run 'git branch'")
+      end
     end
 
     it "returns the list of branches from stdout" do
