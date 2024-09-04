@@ -15,78 +15,64 @@ end
 module FakeGit
   ### GIT METHODS ###
 
-  def self.checkout(branch_name)
-    self.current_branch_name = branch_name
-  end
-
-  def self.rebase(base_branch_name)
-    rebases << [current_branch_name, base_branch_name]
-
-    FakeStatus.new(success: next_success)
-  end
-
-  def self.branch_names
-    @branch_names ||= []
-  end
-
-  def self.rebase_skip
-    FakeStatus.new(success: next_success)
-  end
-
-  def self.next_rebase_step
-    rebase_index
-  end
-
-  def self.last_rebase_step
-    rebases_successful.length
-  end
-
-  ### TEST METHODS ###
-
-  def self.next_success
-    if rebases_successful.any?
-      self.rebase_index += 1
-      rebases_successful[rebase_index - 1]
-    else
-      true
+  class << self
+    def checkout(branch_name)
+      self.current_branch_name = branch_name
     end
-  end
 
-  def self.rebases
-    @rebases ||= []
-  end
+    def rebase(base_branch_name)
+      rebases << [current_branch_name, base_branch_name]
 
-  def self.rebase_index
-    @rebase_index ||= 0
-  end
+      FakeStatus.new(success: next_success)
+    end
 
-  def self.rebase_index=(rebase_index)
-    @rebase_index = rebase_index
-  end
+    def branch_names
+      @branch_names ||= []
+    end
 
-  def self.current_branch_name=(branch_name)
-    @current_branch_name = branch_name
-  end
+    def rebase_skip
+      FakeStatus.new(success: next_success)
+    end
 
-  def self.current_branch_name
-    @current_branch_name
-  end
+    def next_rebase_step
+      rebase_index
+    end
 
-  def self.branch_names=(branch_names)
-    @branch_names = branch_names
-  end
+    def last_rebase_step
+      rebases_successful.length
+    end
 
-  def self.rebases_successful
-    @rebases_successful ||= []
-  end
+    ### TEST METHODS ###
 
-  def self.rebases_successful=(rebases_successful)
-    @rebases_successful = rebases_successful
-  end
+    def next_success
+      if rebases_successful.any?
+        self.rebase_index += 1
+        rebases_successful[rebase_index - 1]
+      else
+        true
+      end
+    end
 
-  def self.reset
-    instance_variables.each do |ivar|
-      remove_instance_variable(ivar)
+    def rebases
+      @rebases ||= []
+    end
+
+    def rebase_index
+      @rebase_index ||= 0
+    end
+
+    attr_writer :rebase_index, :branch_names, :rebases_successful
+
+    attr_accessor :current_branch_name
+
+    def rebases_successful
+      @rebases_successful ||= []
+    end
+
+    def reset
+      instance_variables.each do |ivar|
+        remove_instance_variable(ivar)
+      end
     end
   end
 end
