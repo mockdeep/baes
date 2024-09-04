@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
 module CaptureConfiguredOutput
-  def self.name
-    "configured output"
-  end
+  class << self
+    def name
+      "configured output"
+    end
 
-  def self.capture(block)
-    old_output = Baes::Configuration.output
-    new_output = StringIO.new
-    Baes::Configuration.output = new_output
+    def capture(block)
+      old_output = Baes::Configuration.output
+      new_output = StringIO.new
+      Baes::Configuration.output = new_output
 
-    block.call
+      block.call
 
-    new_output.string
-  ensure
-    Baes::Configuration.output = old_output
+      new_output.string
+    ensure
+      Baes::Configuration.output = old_output
+    end
   end
 end
 
