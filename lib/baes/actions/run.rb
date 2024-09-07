@@ -12,6 +12,8 @@ module Baes::Actions::Run
         Baes::Actions::LoadRebaseConfiguration.call(options)
 
         Baes::Actions::Rebase.call
+      when "clean"
+        Baes::Actions::Clean.call
       when nil
         Baes::Actions::LoadConfiguration.call(["-h"])
       when /^-/

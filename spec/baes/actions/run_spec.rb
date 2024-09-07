@@ -38,6 +38,14 @@ RSpec.describe Baes::Actions::Run do
       expect(FakeGit.rebases).to eq([["my_branch", "main"]])
     end
 
+    it "cleans when given the clean command" do
+      FakeGit.branch_names = ["main", "my_branch"]
+
+      described_class.call(["clean"])
+
+      expect(FakeGit.gc_called).to be(true)
+    end
+
     it "raises an error when given an invalid command" do
       expect { described_class.call(["foo"]) }
         .to raise_error(SystemExit)

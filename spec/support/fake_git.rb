@@ -26,7 +26,7 @@ module FakeGit
       FakeStatus.new(success: next_success)
     end
 
-    def branch_names
+    def branch_names(*)
       @branch_names ||= []
     end
 
@@ -61,13 +61,21 @@ module FakeGit
       @rebase_index ||= 0
     end
 
+    attr_reader :gc_called
     attr_writer :rebase_index, :branch_names, :rebases_successful
-
     attr_accessor :current_branch_name
 
     def rebases_successful
       @rebases_successful ||= []
     end
+
+    def remote_prune(_); end
+
+    def gc
+      @gc_called = true
+    end
+
+    def delete_branches(branch_names); end
 
     def reset
       instance_variables.each do |ivar|

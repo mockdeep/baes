@@ -15,7 +15,7 @@ RSpec.describe Baes::Git do
     nil
   end
 
-  describe "#checkout" do
+  describe ".checkout" do
     it "prints stdout" do
       stub3("git checkout my_branch", stdout: "out")
 
@@ -42,7 +42,7 @@ RSpec.describe Baes::Git do
     end
   end
 
-  describe "#rebase" do
+  describe ".rebase" do
     it "prints stdout" do
       stub3("git rebase my_branch", stdout: "out")
 
@@ -68,7 +68,7 @@ RSpec.describe Baes::Git do
     end
   end
 
-  describe "#current_branch_name" do
+  describe ".current_branch_name" do
     context "when command is not successful" do
       it "prints stderr" do
         command = "git rev-parse --abbrev-ref HEAD"
@@ -96,7 +96,7 @@ RSpec.describe Baes::Git do
     end
   end
 
-  describe "#branch_names" do
+  describe ".branch_names" do
     context "when command is not successful" do
       it "prints stderr" do
         stub3("git branch", stderr: "error", success: false)
@@ -123,7 +123,7 @@ RSpec.describe Baes::Git do
     end
   end
 
-  describe "#rebase_skip" do
+  describe ".rebase_skip" do
     it "prints stdout" do
       stub3("git rebase --skip", stdout: "out")
 
@@ -149,7 +149,7 @@ RSpec.describe Baes::Git do
     end
   end
 
-  describe "#next_rebase_step" do
+  describe ".next_rebase_step" do
     it "returns the contents of the next rebase file when rebase-apply" do
       path = "./.git/rebase-apply"
       expect(Dir).to receive(:exist?).with(path).and_return(true)
@@ -168,7 +168,59 @@ RSpec.describe Baes::Git do
     end
   end
 
-  describe "#last_rebase_step" do
+  describe ".remote_prune" do
+    it "prints stdout" do
+      stub3("git remote prune origin", stdout: "out")
+
+      described_class.remote_prune("origin")
+
+      expect(output.string).to eq("pruning remote branches for origin\nout\n")
+    end
+
+    it "does not print stdout when empty" do
+      stub3("git remote prune origin", stdout: "")
+
+      described_class.remote_prune("origin")
+
+      expect(output.string).to eq("pruning remote branches for origin\n")
+    end
+  end
+
+  describe ".gc" do
+    it "prints stdout" do
+      stub3("git gc --prune=now", stdout: "out")
+
+      described_class.gc
+
+      expect(output.string).to eq("garbage collecting\nout\n")
+    end
+
+    it "does not print stdout when empty" do
+      stub3("git gc --prune=now", stdout: "")
+
+      described_class.gc
+
+      expect(output.string).to eq("garbage collecting\n")
+    end
+  end
+
+  describe ".delete_branches" do
+    it "prints stdout" do
+      stub3("git branch -d branch1 branch2", stdout: "out")
+
+      described_class.delete_branches(["branch1", "branch2"])
+
+      expect(output.string).to eq("deleting branches: branch1, branch2\nout\n")
+    end
+
+    it "returns early when branch_names is empty" do
+      expect(Open3).not_to receive(:capture3)
+
+      described_class.delete_branches([])
+    end
+  end
+
+  describe ".last_rebase_step" do
     it "returns the contents of the last rebase file when rebase-apply" do
       path = "./.git/rebase-apply"
       expect(Dir).to receive(:exist?).with(path).and_return(true)
