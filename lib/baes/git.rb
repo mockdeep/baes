@@ -28,8 +28,8 @@ module Baes::Git
     end
 
     # list branch names and raise on failure
-    def branch_names
-      stdout = run_or_raise("git branch")
+    def branch_names(cli_args = "")
+      stdout = run_or_raise("git branch #{cli_args}".strip)
 
       stdout.lines.map { |line| line.sub(/^\*/, "").strip }
     end
@@ -55,6 +55,30 @@ module Baes::Git
       else
         Integer(File.read("./.git/rebase-merge/end"))
       end
+    end
+
+    # prune remote branches and raise on failure
+    def remote_prune(remote)
+      output.puts("pruning remote branches for #{remote}")
+      stdout = run_or_raise("git remote prune #{remote}")
+
+      output.puts(stdout) unless stdout.empty?
+    end
+
+    # garbage collect and raise on failure
+    def gc
+      output.puts("garbage collecting")
+      stdout = run_or_raise("git gc --prune=now")
+
+      output.puts(stdout) unless stdout.empty?
+    end
+
+    # delete branches and raise on failure
+    def delete_branches(branch_names)
+      return if branch_names.empty?
+
+      output.puts("deleting branches: #{branch_names.join(", ")}")
+      output.puts(run_or_raise("git branch -d #{branch_names.join(" ")}"))
     end
 
     private
