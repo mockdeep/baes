@@ -210,7 +210,7 @@ RSpec.describe Baes::Git do
 
       described_class.delete_branches(["branch1", "branch2"])
 
-      expect(output.string).to eq("deleting branches: branch1, branch2\nout\n")
+      expect(output.string).to eq("deleting branches\nout\n")
     end
 
     it "returns early when branch_names is empty" do

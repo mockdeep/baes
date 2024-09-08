@@ -77,7 +77,7 @@ module Baes::Git
     def delete_branches(branch_names)
       return if branch_names.empty?
 
-      output.puts("deleting branches: #{branch_names.join(", ")}")
+      output.puts("deleting branches")
       output.puts(run_or_raise("git branch -d #{branch_names.join(" ")}"))
     end
 
