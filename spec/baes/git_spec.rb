@@ -186,21 +186,21 @@ RSpec.describe Baes::Git do
     end
   end
 
-  describe ".gc" do
+  describe ".maintenance" do
     it "prints stdout" do
-      stub3("git gc --prune=now", stdout: "out")
+      stub3("git maintenance run", stdout: "out")
 
-      described_class.gc
+      described_class.maintenance
 
-      expect(output.string).to eq("garbage collecting\nout\n")
+      expect(output.string).to eq("running maintenance tasks\nout\n")
     end
 
     it "does not print stdout when empty" do
-      stub3("git gc --prune=now", stdout: "")
+      stub3("git maintenance run", stdout: "")
 
-      described_class.gc
+      described_class.maintenance
 
-      expect(output.string).to eq("garbage collecting\n")
+      expect(output.string).to eq("running maintenance tasks\n")
     end
   end
 

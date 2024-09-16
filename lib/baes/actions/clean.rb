@@ -11,8 +11,8 @@ module Baes::Actions::Clean
       output.puts("cleaning up branches")
       git.checkout(root_name)
       git.remote_prune("origin")
-      git.gc
       git.delete_branches(merged_branches)
+      git.maintenance
     end
 
     private
