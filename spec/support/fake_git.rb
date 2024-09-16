@@ -61,7 +61,7 @@ module FakeGit
       @rebase_index ||= 0
     end
 
-    attr_reader :gc_called
+    attr_reader :maintenance_called
     attr_writer :rebase_index, :branch_names, :rebases_successful
     attr_accessor :current_branch_name
 
@@ -71,8 +71,8 @@ module FakeGit
 
     def remote_prune(_); end
 
-    def gc
-      @gc_called = true
+    def maintenance
+      @maintenance_called = true
     end
 
     def delete_branches(branch_names); end

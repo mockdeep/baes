@@ -65,10 +65,10 @@ module Baes::Git
       output.puts(stdout) unless stdout.empty?
     end
 
-    # garbage collect and raise on failure
-    def gc
-      output.puts("garbage collecting")
-      stdout = run_or_raise("git gc --prune=now")
+    # run git maintenance and raise on failure
+    def maintenance
+      output.puts("running maintenance tasks")
+      stdout = run_or_raise("git maintenance run")
 
       output.puts(stdout) unless stdout.empty?
     end

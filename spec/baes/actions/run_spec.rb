@@ -43,7 +43,7 @@ RSpec.describe Baes::Actions::Run do
 
       described_class.call(["clean"])
 
-      expect(FakeGit.gc_called).to be(true)
+      expect(FakeGit.maintenance_called).to be(true)
     end
 
     it "raises an error when given an invalid command" do
