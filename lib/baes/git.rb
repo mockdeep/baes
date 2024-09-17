@@ -5,6 +5,7 @@ require "open3"
 
 # module to encapsulate git commands in the shell
 module Baes::Git
+  extend Baes::Helpers::Commands
   extend Baes::Configuration::Helpers
 
   class GitError < StandardError; end
@@ -79,29 +80,6 @@ module Baes::Git
 
       output.puts("deleting branches")
       output.puts(run_or_raise("git branch -d #{branch_names.join(" ")}"))
-    end
-
-    private
-
-    def run_or_raise(command)
-      stdout, stderr, status = Open3.capture3(command)
-
-      unless status.success?
-        output.puts(stderr)
-
-        raise GitError, "failed to run '#{command}'"
-      end
-
-      stdout.strip
-    end
-
-    def run_returning_status(command)
-      stdout, stderr, status = Open3.capture3(command)
-
-      output.puts(stdout)
-      output.puts(stderr) unless stderr.empty?
-
-      status
     end
   end
 end

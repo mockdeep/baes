@@ -7,6 +7,7 @@ class Baes::Error < StandardError; end
 
 require_relative "baes/configuration"
 require_relative "baes/configuration/helpers"
+require_relative "baes/helpers"
 
 require_relative "baes/actions"
 require_relative "baes/branch"
