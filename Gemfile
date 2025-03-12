@@ -7,7 +7,7 @@ gemspec
 
 gem "rake"
 gem "rspec"
-gem "rubocop"
-gem "rubocop-rake"
-gem "rubocop-rspec", "~> 2.23.2", require: false # https://github.com/rubocop/rubocop-rspec/issues/1717
+gem "rubocop", require: false
+gem "rubocop-rake", require: false
+gem "rubocop-rspec", require: false
 gem "simplecov"
