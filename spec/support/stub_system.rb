@@ -26,8 +26,7 @@ RSpec.configure do |config|
 
   config.around do |example|
     example.run
-  rescue SystemExit => e
-    puts(e.backtrace)
+  rescue SystemExit
     raise StandardError, "uncaught SystemExit"
   end
 end
