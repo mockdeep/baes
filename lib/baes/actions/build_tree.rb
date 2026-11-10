@@ -18,11 +18,15 @@ class Baes::Actions::BuildTree
         )
       end
 
-      prune(branches.root)
+      prune(branches.root, skipped_branch_names)
       branches
     end
 
     private
+
+    def skipped_branch_names
+      ignored_branch_names + git.worktree_branch_names
+    end
 
     def generate_branches
       branches = Baes::BranchCollection.new
@@ -32,12 +36,10 @@ class Baes::Actions::BuildTree
       branches
     end
 
-    def prune(branch)
-      branch.children.delete_if do |child|
-        ignored_branch_names.include?(child.name)
-      end
+    def prune(branch, skipped_names)
+      branch.children.delete_if { |child| skipped_names.include?(child.name) }
 
-      branch.children.each { |child| prune(child) }
+      branch.children.each { |child| prune(child, skipped_names) }
     end
 
     def link_branch_to_parent(branch, indexed_branches, root_branch:)

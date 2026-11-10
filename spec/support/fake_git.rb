@@ -30,6 +30,10 @@ module FakeGit
       @branch_names ||= []
     end
 
+    def worktree_branch_names
+      @worktree_branch_names ||= []
+    end
+
     def rebase_skip
       FakeStatus.new(success: next_success)
     end
@@ -62,7 +66,10 @@ module FakeGit
     end
 
     attr_reader :maintenance_called
-    attr_writer :rebase_index, :branch_names, :rebases_successful
+    attr_writer :rebase_index,
+                :branch_names,
+                :rebases_successful,
+                :worktree_branch_names
     attr_accessor :current_branch_name
 
     def rebases_successful

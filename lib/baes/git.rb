@@ -32,7 +32,14 @@ module Baes::Git
     def branch_names(cli_args = "")
       stdout = run_or_raise("git branch #{cli_args}".strip)
 
-      stdout.lines.map { |line| line.sub(/^\*/, "").strip }
+      stdout.lines.map { |line| line.sub(/^[*+]/, "").strip }
+    end
+
+    # list names of branches checked out in other worktrees
+    def worktree_branch_names
+      stdout = run_or_raise("git branch")
+
+      stdout.lines.grep(/^\+/).map { |line| line.sub(/^\+/, "").strip }
     end
 
     # skip current commit during rebase and return status

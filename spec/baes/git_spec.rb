@@ -121,6 +121,31 @@ RSpec.describe Baes::Git do
 
       expect(result).to eq(["main", "branch_1", "branch_2"])
     end
+
+    it "strips the worktree marker from branch names" do
+      stub3("git branch", stdout: "* main\n+ branch_1\n  branch_2")
+
+      result = described_class.branch_names
+
+      expect(result).to eq(["main", "branch_1", "branch_2"])
+    end
+  end
+
+  describe ".worktree_branch_names" do
+    it "raises an error when status is not success" do
+      stub3("git branch", success: false)
+
+      expect { described_class.worktree_branch_names }
+        .to raise_error("failed to run 'git branch'")
+    end
+
+    it "returns branches checked out in other worktrees" do
+      stub3("git branch", stdout: "* main\n+ branch_1\n  branch_2\n+ branch_3")
+
+      result = described_class.worktree_branch_names
+
+      expect(result).to eq(["branch_1", "branch_3"])
+    end
   end
 
   describe ".rebase_skip" do
