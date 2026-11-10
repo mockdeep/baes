@@ -18,9 +18,10 @@ module Baes::Actions::Clean
     private
 
     def merged_branches
+      skipped_names = ignored_branch_names + git.worktree_branch_names
       branches = git.branch_names("--merged")
       branches.select do |branch|
-        branch != root_name && !ignored_branch_names.include?(branch)
+        branch != root_name && !skipped_names.include?(branch)
       end
     end
   end

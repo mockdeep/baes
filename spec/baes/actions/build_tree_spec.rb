@@ -67,5 +67,14 @@ RSpec.describe Baes::Actions::BuildTree do
 
       expect(branches.first.children).to be_empty
     end
+
+    it "prunes branches checked out in other worktrees and descendants" do
+      FakeGit.worktree_branch_names = ["some_branch_9"]
+      FakeGit.branch_names = ["main", "some_branch_9", "some_branch_10"]
+
+      branches = described_class.call
+
+      expect(branches.first.children).to be_empty
+    end
   end
 end
